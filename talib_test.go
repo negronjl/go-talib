@@ -18,9 +18,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/kjx98/cgo-talib"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func ok(t *testing.T, err error) {
@@ -160,7 +161,9 @@ func TestRsi(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	result := Add(testHigh, testLow)
-	compare(t, result, "result = talib.ADD(testHigh,testLow)")
+	cgo_result := talib.Add(testHigh, testLow)
+	equals(t, result, cgo_result)
+	//compare(t, result, "result = talib.ADD(testHigh,testLow)")
 }
 
 func TestDiv(t *testing.T) {
@@ -402,12 +405,16 @@ func TestWillR(t *testing.T) {
 
 func TestAdx(t *testing.T) {
 	result := Adx(testHigh, testLow, testClose, 14)
-	compare(t, result, "result = talib.ADX(testHigh,testLow,testClose,14)")
+	cgo_result := talib.Adx(testHigh, testLow, testClose, 14)
+	equals(t, result, cgo_result)
+	//compare(t, result, "result = talib.ADX(testHigh,testLow,testClose,14)")
 }
 
 func TestAdxR(t *testing.T) {
 	result := AdxR(testHigh, testLow, testClose, 5)
-	compare(t, result, "result = talib.ADXR(testHigh,testLow,testClose,5)")
+	cgo_result := talib.Adxr(testHigh, testLow, testClose, 5)
+	equals(t, result, cgo_result)
+	//compare(t, result, "result = talib.ADXR(testHigh,testLow,testClose,5)")
 }
 
 func TestCci(t *testing.T) {
@@ -658,12 +665,17 @@ func TestMacdFix(t *testing.T) {
 
 func TestAd(t *testing.T) {
 	result := Ad(testHigh, testLow, testClose, testVolume)
-	compare(t, result, "result = talib.AD(testHigh,testLow,testClose,testVolume)")
+	//compare(t, result, "result = talib.AD(testHigh,testLow,testClose,testVolume)")
+	cgo_result := talib.Ad(testHigh, testLow, testClose, testVolume)
+	equals(t, result, cgo_result)
 }
 
 func TestAdOsc(t *testing.T) {
 	result := AdOsc(testHigh, testLow, testClose, testVolume, 3, 10)
-	compare(t, result, "result = talib.ADOSC(testHigh,testLow,testClose,testVolume,3,10)")
+	cgo_result := talib.AdOsc(testHigh, testLow, testClose, testVolume, 3, 10)
+	//compare(t, result, "result = talib.ADOSC(testHigh,testLow,testClose,testVolume,3,10)")
+	//compare_cgo(t, result, cgo_result)
+	equals(t, result, cgo_result)
 }
 
 func TestHeikinashiCandles(t *testing.T) {
@@ -675,7 +687,9 @@ func TestHeikinashiCandles(t *testing.T) {
 	resultHigh, resultOpen, resultClose, resultLow := HeikinashiCandles(testHigh, testOpen, testClose, testLow)
 	for i, expected := range expectedHighs {
 		i++
-		if i == len(expectedHighs) { continue }
+		if i == len(expectedHighs) {
+			continue
+		}
 		if resultHigh[i] != expected {
 			t.Errorf("Highs error: Expected %f at cell %d got %f ", expected, i, resultHigh[i])
 		}
@@ -683,7 +697,9 @@ func TestHeikinashiCandles(t *testing.T) {
 
 	for i, expected := range expectedOpens {
 		i++
-		if i == len(expectedOpens) { continue }
+		if i == len(expectedOpens) {
+			continue
+		}
 		if resultOpen[i] != expected {
 			t.Errorf("Opens error: Expected %f at cell %d got %f ", expected, i, resultOpen[i])
 		}
@@ -691,7 +707,9 @@ func TestHeikinashiCandles(t *testing.T) {
 
 	for i, expected := range expectedCloses {
 		i++
-		if i == len(expectedCloses) { continue }
+		if i == len(expectedCloses) {
+			continue
+		}
 		if resultClose[i] != expected {
 			t.Errorf("Closes error: Expected %f at cell %d got %f ", expected, i, resultClose[i])
 		}
@@ -699,7 +717,9 @@ func TestHeikinashiCandles(t *testing.T) {
 
 	for i, expected := range expectedLows {
 		i++
-		if i == len(expectedLows) { continue }
+		if i == len(expectedLows) {
+			continue
+		}
 		if resultLow[i] != expected {
 			t.Errorf("Lows error: Expected %f at cell %d got %f ", expected, i, resultLow[i])
 		}
