@@ -18,8 +18,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/kjx98/cgo-talib"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -161,9 +159,7 @@ func TestRsi(t *testing.T) {
 
 func TestAdd(t *testing.T) {
 	result := Add(testHigh, testLow)
-	cgo_result := talib.Add(testHigh, testLow)
-	equals(t, result, cgo_result)
-	//compare(t, result, "result = talib.ADD(testHigh,testLow)")
+	compare(t, result, "result = talib.ADD(testHigh,testLow)")
 }
 
 func TestDiv(t *testing.T) {
@@ -405,16 +401,12 @@ func TestWillR(t *testing.T) {
 
 func TestAdx(t *testing.T) {
 	result := Adx(testHigh, testLow, testClose, 14)
-	cgo_result := talib.Adx(testHigh, testLow, testClose, 14)
-	equals(t, result, cgo_result)
-	//compare(t, result, "result = talib.ADX(testHigh,testLow,testClose,14)")
+	compare(t, result, "result = talib.ADX(testHigh,testLow,testClose,14)")
 }
 
 func TestAdxR(t *testing.T) {
 	result := AdxR(testHigh, testLow, testClose, 5)
-	cgo_result := talib.Adxr(testHigh, testLow, testClose, 5)
-	equals(t, result, cgo_result)
-	//compare(t, result, "result = talib.ADXR(testHigh,testLow,testClose,5)")
+	compare(t, result, "result = talib.ADXR(testHigh,testLow,testClose,5)")
 }
 
 func TestCci(t *testing.T) {
@@ -665,17 +657,12 @@ func TestMacdFix(t *testing.T) {
 
 func TestAd(t *testing.T) {
 	result := Ad(testHigh, testLow, testClose, testVolume)
-	//compare(t, result, "result = talib.AD(testHigh,testLow,testClose,testVolume)")
-	cgo_result := talib.Ad(testHigh, testLow, testClose, testVolume)
-	equals(t, result, cgo_result)
+	compare(t, result, "result = talib.AD(testHigh,testLow,testClose,testVolume)")
 }
 
 func TestAdOsc(t *testing.T) {
 	result := AdOsc(testHigh, testLow, testClose, testVolume, 3, 10)
-	cgo_result := talib.AdOsc(testHigh, testLow, testClose, testVolume, 3, 10)
-	//compare(t, result, "result = talib.ADOSC(testHigh,testLow,testClose,testVolume,3,10)")
-	//compare_cgo(t, result, cgo_result)
-	equals(t, result, cgo_result)
+	compare(t, result, "result = talib.ADOSC(testHigh,testLow,testClose,testVolume,3,10)")
 }
 
 func TestHeikinashiCandles(t *testing.T) {
