@@ -4,51 +4,103 @@ import (
 	"time"
 )
 
+// Series data with int index
+// Len return length of Series
+// DataAt return Data at index i
+//	if i >= 0,  data at index
+//	else  data at index reverse order, -1 for last data
 type Series interface {
-	Len()	int
-	Data(i int)	float64
-	VData()	[]float64
+	Len() int
+	DataAt(i int) float64
 }
 
+// TimeSeries time as index
 type TimeSeries interface {
-	Len()	int
-	Data(time.Time)	float64
-	Index(time.Time)	int
+	Len() int
+	DataAt(time.Time) float64
+	Index(time.Time) int
 }
 
+// TaSeries TA OHLCV
 type TaSeries interface {
 	Len() int
-	High() []float64
-	Open() []float64
-	Close() []float64
-	Low() []float64
-	Volume()	[]float64
+	Time(i int) time.Time
+	Open(i int) float64
+	High(i int) float64
+	Low(i int) float64
+	Close(i int) float64
+	Volume(i int) float64
 }
 
-type SimpleSeries struct {
-	Highs   []float64
-	Opens   []float64
-	Closes  []float64
-	Lows    []float64
-	Volumes []float64
+func NewSlice(s Series) (res []float64) {
+	if s.Len() <= 0 {
+		return
+	}
+	ll := s.Len()
+	res = make([]float64, ll)
+	for i := 0; i < ll; i++ {
+		res[i] = s.DataAt(i)
+	}
+	return
 }
 
-func (s SimpleSeries) Len() int {
-	return len(s.Highs)
+func Opens(s TaSeries) (res []float64) {
+	if s.Len() <= 0 {
+		return
+	}
+	ll := s.Len()
+	res = make([]float64, ll)
+	for i := 0; i < ll; i++ {
+		res[i] = s.Open(i)
+	}
+	return
 }
 
-func (s SimpleSeries) High() []float64 {
-	return s.Highs
+
+func Highs(s TaSeries) (res []float64) {
+	if s.Len() <= 0 {
+		return
+	}
+	ll := s.Len()
+	res = make([]float64, ll)
+	for i := 0; i < ll; i++ {
+		res[i] = s.High(i)
+	}
+	return
 }
 
-func (s SimpleSeries) Open() []float64 {
-	return s.Opens
+func Lows(s TaSeries) (res []float64) {
+	if s.Len() <= 0 {
+		return
+	}
+	ll := s.Len()
+	res = make([]float64, ll)
+	for i := 0; i < ll; i++ {
+		res[i] = s.Low(i)
+	}
+	return
 }
 
-func (s SimpleSeries) Close() []float64 {
-	return s.Closes
+func Closes(s TaSeries) (res []float64) {
+	if s.Len() <= 0 {
+		return
+	}
+	ll := s.Len()
+	res = make([]float64, ll)
+	for i := 0; i < ll; i++ {
+		res[i] = s.Close(i)
+	}
+	return
 }
 
-func (s SimpleSeries) Low() []float64 {
-	return s.Lows
+func Volumes(s TaSeries) (res []float64) {
+	if s.Len() <= 0 {
+		return
+	}
+	ll := s.Len()
+	res = make([]float64, ll)
+	for i := 0; i < ll; i++ {
+		res[i] = s.Volume(i)
+	}
+	return
 }
